@@ -1,32 +1,100 @@
-from services.config.workout_config import PROMPT
+import time
+import streamlit as st
 
 
-class LLMCoach:
-    def __init__(self, groq_client):
-        self.client = groq_client
-        self.history = []
-        self.system_prompt = PROMPT
+class VoicePipeline:
+    def __init__(self, llm, tts):
+        self.llm = llm
+        self.tts = tts
+        self.last_spoken_at = 0
 
-    def give_feedback(self, event, issue):
-        prompt = f"Event: {event}"
+    def _find_form_issue(self, exercise, metrics):
+        if "issue" in metrics:
+            return metrics["issue"]
 
-        if issue:
-            prompt += f" Form Issue: {issue}"
+        if exercise == "Squats":
+            depth = metrics.get("depth_status", "")
+            back_angle = metrics.get("back_angle", 180)
 
-        messages = [
-            {"role": "system", "content": self.system_prompt},
-            *self.history[-10:],
-            {"role": "user", "content": prompt}
-        ]
+            if depth == "TOO HIGH":
+                return "The user's squat is not deep enough — knees are not bending sufficiently."
 
-        response = self.client.chat.completions.create(
-            model="qwen/qwen3.6-27b",
-            messages=messages,
-            temperature=0.4,
-        )
+            if isinstance(back_angle, (int, float)) and back_angle < 130:
+                return "The user is leaning too far forward during the squat."
 
-        text = response.choices[0].message.content.strip()
-        self.history.append({"role": "assistant", "content": text})
+        elif exercise == "Push-ups":
+            alignment = metrics.get("body_alignment", "")
+            hip_status = metrics.get("hip_status", "")
 
-        return text
-    
+            if alignment == "Poor Form":
+                return "The user's body is not straight during the push-up."
+
+            if hip_status == "SAGGING":
+                return "The user's hips are sagging down during the push-up."
+
+            if hip_status == "PIKED UP":
+                return "The user's hips are too high — lower them to form a straight line."
+
+        elif exercise == "Biceps Curls (Dumbbell)":
+            swing = metrics.get("swing_status", "")
+            shoulder = metrics.get("shoulder_status", "")
+
+            if swing == "SWINGING":
+                return "The user is swinging their torso during the curl — keep the body still."
+
+            if shoulder == "ELBOW DRIFTING":
+                return "The user's elbow is drifting away from their side during the curl."
+
+        elif exercise == "Shoulder Press":
+            back_arch = metrics.get("back_arch_status", "")
+            extension = metrics.get("extension_status", "")
+
+            if back_arch == "Excessive Arch":
+                return "The user is arching their lower back excessively during the press."
+
+            if back_arch == "Slight Arch":
+                return "Slight back arch detected — encourage the user to brace their core."
+
+        elif exercise == "Lunges":
+            balance = metrics.get("balance_status", "")
+
+            if balance == "OFF BALANCE":
+                return "The user is losing balance during the lunge — feet should be hip-width apart."
+
+        return None
+
+    def process_event(self, event, exercise, metrics):
+        issue = self._find_form_issue(exercise, metrics)
+
+        now = time.time()
+
+        is_major_issue = event in ["workout_started", "set_completed", "workout_completed"]
+
+        if not is_major_issue:
+            if not issue:
+                return None
+
+            if now - self.last_spoken_at < 5:
+                return None
+
+        # Pass event, exercise, AND issue through — keyword args so the
+        # mapping can never silently misalign, even if the LLMCoach
+        # signature changes order later.
+        text = self.llm.give_feedback(event=event, exercise=exercise, issue=issue)
+        voice = self.tts.speak(text)
+
+        self.last_spoken_at = now
+
+        return voice, text
+
+
+def autoplay_audio(audio_bytes):
+    if not audio_bytes:
+        return
+
+    # NOTE: hiding the player can make silent autoplay failures hard to
+    # debug. If audio ever stops playing, comment out the line below
+    # temporarily so you can see/manually click the native player.
+    st.markdown("<style>[data-testid='stAudio'] {display: none;}</style>", unsafe_allow_html=True)
+
+    st.audio(audio_bytes, format="audio/mp3", autoplay=True)

@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import time
 import pandas as pd
+from dotenv import load_dotenv
 from services.auth.login_wall import render_login_wall
 from services.state.session_defaults import initial_session_defaults
 from services.config.workout_config import EXERCISE_OPTIONS
@@ -16,11 +17,15 @@ from services.coaching.llm import LLMCoach
 from services.coaching.tts import TextToSpeech
 from services.coaching.voice_pipeline import VoicePipeline, autoplay_audio
 
-  
+# Load GROQ_API_KEY (and any other vars) from .env into os.environ.
+# Must happen before anything tries to read os.environ.get("GROQ_API_KEY").
+load_dotenv()
+
+
 def main():
     st.set_page_config(
         page_icon="🏋️‍♀️",
-        page_title="AI Real-time GYM Coach",
+        page_title="AI Real-time Exercise Coach",
         initial_sidebar_state="expanded",
         layout="centered"
     )
@@ -31,7 +36,7 @@ def main():
     init_db()
 
     if not render_login_wall():
-        return 
+        return
 
     initial_session_defaults()
 
@@ -41,18 +46,19 @@ def main():
 
             if not api_key and hasattr(st, "secrets") and "GROQ_API_KEY" in st.secrets:
                 api_key = st.secrets["GROQ_API_KEY"]
-            
+
             groq_client = Groq(api_key=api_key)
             llm_coach = LLMCoach(groq_client)
             tts = TextToSpeech()
             st.session_state.voice_pipeline = VoicePipeline(llm_coach, tts)
         except Exception as e:
+            st.sidebar.error(f"Voice pipeline init failed: {e}")
             st.session_state.voice_pipeline = None
 
     workout_started = st.session_state.get("workout_started", False)
-    
+
     with st.sidebar:
-        st.title("🏋️‍♂️ Apna AI Coach")
+        st.title("🏋️‍♂️ AI Exericse Coach")
 
         if st.session_state.username:
             st.caption(f"👤 Login as {st.session_state.username}")
@@ -63,9 +69,7 @@ def main():
 
         if not workout_started:
             plan_exercise = st.selectbox("Exercise", options=EXERCISE_OPTIONS, key="plan_exercise")
-
             plan_sets = st.number_input("Sets", min_value=0, max_value=50, key="plan_sets", step=1)
-
             plan_reps = st.number_input("Reps per Set", min_value=0, max_value=50, key="plan_reps", step=1)
 
             st.markdown("")
@@ -87,7 +91,6 @@ def main():
                         exercise=plan_exercise,
                         metrics={}
                     )
-                    
                     if result:
                         st.session_state.audio_to_play, st.session_state.coach_feedback = result
 
@@ -105,7 +108,7 @@ def main():
 
             if end_session_button:
                 st.session_state.workout_started = False
-                
+
                 if st.session_state.voice_pipeline:
                     result = st.session_state.voice_pipeline.process_event(
                         event="workout_completed",
@@ -128,7 +131,6 @@ def main():
             target_sets = st.session_state.get("target_sets")
 
             st.subheader("Progress")
-
             st.metric("Total Reps", f"{total_reps}")
             st.metric("Current Set Reps", f"{current_set_reps} / {reps_per_set}")
             st.metric("Sets Completed", f"{sets_completed} / {target_sets}")
@@ -165,9 +167,9 @@ def main():
                 st.metric("Torso Angle", f"{st.session_state.torso_angle}°")
                 st.metric("Balance Status", st.session_state.balance_status)
 
-    st.title("AI Real-time GYM Coach")
+    st.title("AI Real-time Exercise Coach")
     st.markdown("#### Real-time pose detection with proactive AI voice coaching")
- 
+
     if st.session_state.get("audio_to_play"):
         autoplay_audio(st.session_state.audio_to_play)
 
@@ -212,7 +214,7 @@ def main():
         sync_metrics_update(context)
 
         if context.state.playing:
-            time.sleep(0.25)
+            time.sleep(0.05)  # shorter poll interval — fixes laggy metric/UI updates
             st.rerun()
 
         inject_webrtc_styles()
@@ -254,4 +256,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
