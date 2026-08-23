@@ -1,0 +1,59 @@
+<svg width="900" height="260" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#4a7c94" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="260" fill="#0d1b2a"/>
+
+  <!-- row 1: pipeline -->
+  <g font-family="Helvetica, Arial, sans-serif">
+
+    <!-- Capture -->
+    <rect x="40" y="70" width="160" height="70" rx="10" fill="#132a3e" stroke="#274a63"/>
+    <text x="120" y="100" text-anchor="middle" font-size="14" font-weight="700" fill="#e8f4f0">Capture</text>
+    <text x="120" y="118" text-anchor="middle" font-size="10" fill="#7fa7bd">streamlit-webrtc</text>
+    <text x="120" y="131" text-anchor="middle" font-size="10" fill="#7fa7bd">live webcam frame</text>
+
+    <path d="M 200 105 L 244 105" stroke="#4a7c94" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+
+    <!-- Pose Estimation -->
+    <rect x="248" y="70" width="170" height="70" rx="10" fill="#132a3e" stroke="#33d6b0"/>
+    <text x="333" y="100" text-anchor="middle" font-size="14" font-weight="700" fill="#e8f4f0">Pose estimation</text>
+    <text x="333" y="118" text-anchor="middle" font-size="10" fill="#6fd8bd">MediaPipe (lite)</text>
+    <text x="333" y="131" text-anchor="middle" font-size="10" fill="#6fd8bd">33 body landmarks</text>
+
+    <path d="M 418 105 L 462 105" stroke="#4a7c94" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+
+    <!-- Rule Engine -->
+    <rect x="466" y="70" width="170" height="70" rx="10" fill="#132a3e" stroke="#274a63"/>
+    <text x="551" y="100" text-anchor="middle" font-size="14" font-weight="700" fill="#e8f4f0">Rule engine</text>
+    <text x="551" y="118" text-anchor="middle" font-size="10" fill="#7fa7bd">joint-angle FSM</text>
+    <text x="551" y="131" text-anchor="middle" font-size="10" fill="#7fa7bd">rep count + form check</text>
+
+    <path d="M 636 105 L 680 105" stroke="#4a7c94" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+
+    <!-- Feedback -->
+    <rect x="684" y="70" width="176" height="70" rx="10" fill="#132a3e" stroke="#ffb454"/>
+    <text x="772" y="100" text-anchor="middle" font-size="14" font-weight="700" fill="#e8f4f0">Feedback</text>
+    <text x="772" y="118" text-anchor="middle" font-size="10" fill="#ffcf8c">LLM (Groq) + gTTS</text>
+    <text x="772" y="131" text-anchor="middle" font-size="10" fill="#ffcf8c">spoken coaching cue</text>
+
+    <!-- persistence branch -->
+    <path d="M 551 140 L 551 175 L 300 175 L 300 190" stroke="#4a7c94" stroke-width="1.6" fill="none" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+    <rect x="200" y="194" width="200" height="46" rx="8" fill="#0f2233" stroke="#274a63"/>
+    <text x="300" y="215" text-anchor="middle" font-size="12" font-weight="700" fill="#c9dbe6">Persistence</text>
+    <text x="300" y="230" text-anchor="middle" font-size="9" fill="#7fa7bd">SQLite workout history</text>
+
+    <!-- session/ui branch -->
+    <path d="M 333 140 L 333 160 L 700 160 L 700 190" stroke="#4a7c94" stroke-width="1.6" fill="none" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+    <rect x="600" y="194" width="200" height="46" rx="8" fill="#0f2233" stroke="#274a63"/>
+    <text x="700" y="215" text-anchor="middle" font-size="12" font-weight="700" fill="#c9dbe6">Streamlit UI</text>
+    <text x="700" y="230" text-anchor="middle" font-size="9" fill="#7fa7bd">live metrics, session state</text>
+
+    <!-- network dependency note -->
+    <text x="772" y="33" text-anchor="middle" font-size="10" fill="#ffb454">only network-dependent stage</text>
+
+  </g>
+</svg>
