@@ -2,7 +2,7 @@
 <img src="hero.svg" width="100%" alt="AI Exercise Coach — sensor-free, CPU-efficient, real-time voice coaching" />
 
 ![Python](https://img.shields.io/badge/python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)
-![Streamlit](https://img.shields.io/badge/streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
+![Streamlit](https://real-time-exercise-coach.netlify.app)
 ![MediaPipe](https://img.shields.io/badge/mediapipe-0097A7?style=flat-square&logo=google&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)
 
