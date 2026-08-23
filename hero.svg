@@ -1,0 +1,85 @@
+<svg width="900" height="230" viewBox="0 0 900 230" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#132a3e"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="230" fill="url(#bg)"/>
+
+  <!-- animated stick figure, left -->
+  <g transform="translate(60,30)" stroke="#e8f4f0" stroke-width="3" stroke-linecap="round" fill="none">
+    <circle cx="60" cy="18" r="13" fill="none"/>
+    <g>
+      <line x1="60" y1="31" x2="60" y2="78">
+        <animate attributeName="y2" values="78;92;78" dur="2.6s" repeatCount="indefinite"/>
+      </line>
+      <line x1="60" y1="44" x2="36" y2="63">
+        <animate attributeName="y2" values="63;76;63" dur="2.6s" repeatCount="indefinite"/>
+      </line>
+      <line x1="60" y1="44" x2="84" y2="63">
+        <animate attributeName="y2" values="63;76;63" dur="2.6s" repeatCount="indefinite"/>
+      </line>
+      <line x1="60" y1="78" x2="60" y2="114" stroke="#33d6b0">
+        <animate attributeName="y1" values="78;92;78" dur="2.6s" repeatCount="indefinite"/>
+        <animate attributeName="x2" values="60;45;60" dur="2.6s" repeatCount="indefinite"/>
+        <animate attributeName="y2" values="114;118;114" dur="2.6s" repeatCount="indefinite"/>
+      </line>
+      <line x1="60" y1="114" x2="60" y2="150" stroke="#33d6b0">
+        <animate attributeName="x1" values="60;45;60" dur="2.6s" repeatCount="indefinite"/>
+        <animate attributeName="y1" values="114;118;114" dur="2.6s" repeatCount="indefinite"/>
+      </line>
+    </g>
+    <circle cx="60" cy="18" r="3" fill="#33d6b0"/>
+    <circle cx="60" cy="44" r="3" fill="#33d6b0"/>
+    <circle cx="60" cy="114" r="3" fill="#ffb454">
+      <animate attributeName="cy" values="114;118;114" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="60" cy="150" r="3" fill="#33d6b0"/>
+  </g>
+  <text x="60" y="205" text-anchor="middle" font-family="Menlo, monospace" font-size="11" fill="#6fd8bd">live pose tracking</text>
+
+  <!-- title + crossfading tagline, right -->
+  <g font-family="Helvetica, Arial, sans-serif">
+    <text x="180" y="70" font-size="26" font-weight="700" fill="#e8f4f0">AI Exercise Coach</text>
+    <text x="180" y="98" font-size="13" fill="#7fa7bd">Sensor-free · CPU-efficient · Real-time voice coaching</text>
+
+    <g font-size="14" fill="#33d6b0">
+      <text x="180" y="135" opacity="0">
+        Rule-based pose analysis from a single webcam
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.05;0.3;0.35" dur="9s" repeatCount="indefinite"/>
+      </text>
+      <text x="180" y="135" opacity="0">
+        Joint-angle geometry counts reps and checks form
+        <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.33;0.38;0.63;0.68" dur="9s" repeatCount="indefinite"/>
+      </text>
+      <text x="180" y="135" opacity="0">
+        LLM-synthesized coaching, spoken back in real time
+        <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.66;0.71;0.96;1" dur="9s" repeatCount="indefinite"/>
+      </text>
+    </g>
+
+    <!-- mini pipeline strip -->
+    <g transform="translate(180,155)">
+      <g font-size="10" fill="#7fa7bd">
+        <rect x="0" y="0" width="100" height="34" rx="7" fill="#0f2233" stroke="#274a63"/>
+        <text x="50" y="21" text-anchor="middle" fill="#e8f4f0" font-weight="600" font-size="11">Capture</text>
+
+        <rect x="122" y="0" width="100" height="34" rx="7" fill="#0f2233" stroke="#33d6b0"/>
+        <text x="172" y="21" text-anchor="middle" fill="#e8f4f0" font-weight="600" font-size="11">Pose</text>
+
+        <rect x="244" y="0" width="100" height="34" rx="7" fill="#0f2233" stroke="#274a63"/>
+        <text x="294" y="21" text-anchor="middle" fill="#e8f4f0" font-weight="600" font-size="11">Rules</text>
+
+        <rect x="366" y="0" width="130" height="34" rx="7" fill="#0f2233" stroke="#ffb454"/>
+        <text x="431" y="21" text-anchor="middle" fill="#e8f4f0" font-weight="600" font-size="11">Voice feedback</text>
+      </g>
+      <path d="M 100 17 L 122 17" stroke="#4a7c94" stroke-width="1.6" fill="none"/>
+      <path d="M 222 17 L 244 17" stroke="#4a7c94" stroke-width="1.6" fill="none"/>
+      <path d="M 344 17 L 366 17" stroke="#4a7c94" stroke-width="1.6" fill="none"/>
+      <circle r="3" fill="#33d6b0">
+        <animateMotion path="M 100 17 L 496 17" dur="2.8s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+</svg>
