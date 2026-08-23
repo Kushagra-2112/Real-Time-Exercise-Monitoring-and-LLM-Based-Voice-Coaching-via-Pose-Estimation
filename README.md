@@ -2,13 +2,15 @@
 <img src="hero.svg" width="100%" alt="AI Exercise Coach — sensor-free, CPU-efficient, real-time voice coaching" />
 
 ![Python](https://img.shields.io/badge/python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)
-![Streamlit](https://real-time-exercise-coach.netlify.app)
+![Streamlit](https://img.shields.io/badge/streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
 ![MediaPipe](https://img.shields.io/badge/mediapipe-0097A7?style=flat-square&logo=google&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)
 
+**[Live Demo](https://real-time-exercise-coach.netlify.app) · [Try the App](https://ai-realtime-gym-coach.streamlit.app/)**
+
 </div>
 
-##  Sensor-Free, CPU-Efficient Exercise Monitoring: Rule-Based Pose Analysis with LLM-Synthesized Voice Feedback
+## Sensor-Free, CPU-Efficient Exercise Monitoring
 
 A real-time, webcam-only AI gym trainer. It counts reps, checks form using joint-angle geometry, and speaks corrections back to you — no wearables, no GPU, no training data.
 
@@ -40,6 +42,7 @@ Only the **Feedback** stage needs network access — capture, pose estimation, a
 | Coaching | LLM via Groq API |
 | Voice | gTTS |
 | Storage | SQLite |
+| Landing page | Netlify |
 
 ## Getting started
 
@@ -76,6 +79,8 @@ portaudio19-dev
 ```
 
 > Cloud-hosted camera access often needs a TURN server, not just STUN — a datacenter server and a home-network client are usually both behind NAT.
+
+The static landing page (hero, gallery, demo video) is deployed separately on Netlify at [real-time-exercise-coach.netlify.app](https://real-time-exercise-coach.netlify.app) — it links out to the live Streamlit app, since Netlify can't host the WebRTC-based trainer itself.
 
 ## Evaluation
 
