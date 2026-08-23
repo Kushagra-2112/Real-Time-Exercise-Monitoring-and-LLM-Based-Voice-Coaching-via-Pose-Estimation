@@ -10,7 +10,7 @@
 
 </div>
 
-## Sensor-Free, CPU-Efficient Exercise Monitoring
+##  Sensor-Free, CPU-Efficient Exercise Monitoring: Rule-Based Pose Analysis with LLM-Synthesized Voice Feedback
 
 A real-time, webcam-only AI gym trainer. It counts reps, checks form using joint-angle geometry, and speaks corrections back to you — no wearables, no GPU, no training data.
 
