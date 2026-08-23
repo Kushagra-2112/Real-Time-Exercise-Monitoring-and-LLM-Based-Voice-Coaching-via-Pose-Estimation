@@ -1,5 +1,5 @@
 <div align="center">
-<img src="assets/hero.svg" width="100%" alt="AI Exercise Coach — sensor-free, CPU-efficient, real-time voice coaching" />
+<img src="hero.svg" width="100%" alt="AI Exercise Coach — sensor-free, CPU-efficient, real-time voice coaching" />
 
 ![Python](https://img.shields.io/badge/python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
@@ -8,7 +8,7 @@
 
 </div>
 
-## Sensor-Free, CPU-Efficient Exercise Monitoring
+##  Sensor-Free, CPU-Efficient Exercise Monitoring: Rule-Based Pose Analysis with LLM-Synthesized Voice Feedback
 
 A real-time, webcam-only AI gym trainer. It counts reps, checks form using joint-angle geometry, and speaks corrections back to you — no wearables, no GPU, no training data.
 
@@ -20,7 +20,7 @@ A real-time, webcam-only AI gym trainer. It counts reps, checks form using joint
 ## Architecture
 
 <div align="center">
-<img src="assets/architecture.svg" width="100%" alt="Capture, Pose Estimation, Rule Engine, Feedback pipeline with Persistence and UI branches" />
+<img src="architecture.svg" width="100%" alt="Capture, Pose Estimation, Rule Engine, Feedback pipeline with Persistence and UI branches" />
 </div>
 
 Only the **Feedback** stage needs network access — capture, pose estimation, and rep/form logic run fully offline.
